@@ -1,5 +1,5 @@
 # sample-gridview-select
-Android gridview item selection example
+Android gridview with item selection example
 
 Shows how to select ImageView items in GridView with choice modes.
 
