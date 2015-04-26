@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/GridViewSelect.iml" filepath="$PROJECT_DIR$/GridViewSelect.iml" />
+      <module fileurl="file://$PROJECT_DIR$/SampleGridView.iml" filepath="$PROJECT_DIR$/SampleGridView.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>
