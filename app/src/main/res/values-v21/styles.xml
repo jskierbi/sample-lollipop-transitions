@@ -1,5 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="AppTheme" parent="android:Theme.Material.Light">
+    <style name="AppTheme" parent="Theme.AppCompat.Light">
+        <item name="android:windowContentTransitions">true</item>
+
+        <item name="android:windowEnterTransition">@android:transition/explode</item>
+        <item name="android:windowExitTransition">@android:transition/explode</item>
+
+        <!--<item name="android:windowSharedElementEnterTransition">@transition/change_image_transition</item>-->
+        <!--<item name="android:windowSharedElementExitTransition">@transition/change_image_transition</item>-->
     </style>
 </resources>

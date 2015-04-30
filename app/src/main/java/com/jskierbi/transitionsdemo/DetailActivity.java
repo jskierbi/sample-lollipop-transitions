@@ -52,4 +52,9 @@ public class DetailActivity extends Activity {
 		super.onSaveInstanceState(outState);
 		outState.putParcelable(KEY_IMAGE_DATA, Parcels.wrap(mImageData));
 	}
+
+	@Override public void onBackPressed() {
+		super.onBackPressed();
+		overridePendingTransition(R.anim.from_left, R.anim.to_right);
+	}
 }
