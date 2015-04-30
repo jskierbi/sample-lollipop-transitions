@@ -6,20 +6,23 @@ import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.widget.AdapterView;
-import android.widget.BaseAdapter;
-import android.widget.GridView;
-import android.widget.ImageView;
+import butterknife.ButterKnife;
+import butterknife.InjectView;
+import butterknife.OnClick;
 
 
 public class MainActivity extends AppCompatActivity {
 
 	private static final String TAG = MainActivity.class.getSimpleName();
 
-	private GridView mGridView;
+//	private GridView mGridView;
+	@InjectView(R.id.recycler_view) RecyclerView mRecyclerView;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -29,41 +32,46 @@ public class MainActivity extends AppCompatActivity {
 		}
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+		ButterKnife.inject(this);
 
-		mGridView = ((GridView) findViewById(R.id.gridview));
-		mGridView.setChoiceMode(GridView.CHOICE_MODE_NONE);
-		mGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-			@Override public void onItemClick(AdapterView<?> parent,
-			                                  View view,
-			                                  int position,
-			                                  long id) {
-
-				ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(
-						MainActivity.this,
-						view, getString(R.string.transition_image));
-				Intent intent = DetailActivity.showImage(MainActivity.this, Data.IMAGE_DATA[position]);
-				ActivityCompat.startActivity(MainActivity.this, intent, options.toBundle());
-				overridePendingTransition(R.anim.from_left, R.anim.to_right);
-			}
-		});
-		mGridView.setAdapter(new BaseAdapter() {
-			@Override public int getCount() {
-				return Data.IMAGE_DATA.length;
-			}
-			@Override public Object getItem(int position) {
-				return Data.IMAGE_DATA[position];
-			}
-			@Override public long getItemId(int position) {
-				return Data.IMAGE_DATA[position].getImage();
-			}
-			@Override public View getView(int position, View convertView, ViewGroup parent) {
-				if (convertView == null || !(convertView instanceof ImageView)) {
-					ImageView imageView = (ImageView) getLayoutInflater().inflate(R.layout.grid_view_item, parent, false);
-					imageView.setImageResource(Data.IMAGE_DATA[position].getImage());
-					convertView = imageView;
-				}
-				return convertView;
-			}
-		});
+		mRecyclerView.setLayoutManager(new GridLayoutManager(this, 3));
+		mRecyclerView.setAdapter(mAdapter);
 	}
+
+	class ViewHolder extends RecyclerView.ViewHolder {
+
+		@InjectView(R.id.image) CheckedImageView image;
+		ImageModel imageModel;
+
+		public ViewHolder(View itemView) {
+			super(itemView);
+			ButterKnife.inject(this, itemView);
+		}
+
+		@OnClick(R.id.image) void onImageClick() {
+
+			ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(
+					MainActivity.this,
+					image, getString(R.string.transition_image));
+			Intent intent = DetailActivity.showImage(MainActivity.this, imageModel);
+			ActivityCompat.startActivity(MainActivity.this, intent, options.toBundle());
+			overridePendingTransition(R.anim.from_left, R.anim.to_right);
+		}
+	}
+
+	private RecyclerView.Adapter mAdapter = new RecyclerView.Adapter<ViewHolder>() {
+
+		@Override public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+			View v = LayoutInflater.from(parent.getContext())
+					.inflate(R.layout.grid_view_item, parent, false);
+			return new ViewHolder(v);
+		}
+		@Override public void onBindViewHolder(ViewHolder holder, int position) {
+			holder.image.setImageResource(Data.IMAGE_DATA[position].getImage());
+			holder.imageModel = Data.IMAGE_DATA[position];
+		}
+		@Override public int getItemCount() {
+			return Data.IMAGE_DATA.length;
+		}
+	};
 }

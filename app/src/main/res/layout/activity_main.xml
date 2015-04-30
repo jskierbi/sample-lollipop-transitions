@@ -9,29 +9,9 @@
     android:orientation="vertical"
     tools:context=".MainActivity">
 
-    <!--<TextView-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:layout_gravity="center"-->
-    <!--android:text="@string/hello_world" />-->
-
-    <!--<Button-->
-    <!--android:text="Go to transition"-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="wrap_content" />-->
-
-    <!-- TODO some list here (maybe even recycler view??) -->
-    <!-- TODO some image here -->
-
-    <GridView
-        android:id="@+id/gridview"
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:columnWidth="90dp"
-        android:gravity="center"
-        android:horizontalSpacing="10dp"
-        android:numColumns="auto_fit"
-        android:stretchMode="columnWidth"
-        android:verticalSpacing="10dp" />
+        android:layout_height="match_parent" />
 
 </LinearLayout>
