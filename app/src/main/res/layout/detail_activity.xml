@@ -6,26 +6,65 @@
     android:orientation="vertical"
     android:padding="10dp">
 
-    <ImageView
-        android:id="@+id/image"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:transitionName="@string/transition_image"
-        android:adjustViewBounds="true"
-        tools:src="@drawable/a001" />
+        android:background="@color/blue_primary"
+        android:orientation="vertical"
+        android:padding="10dp">
 
-    <TextView
-        android:id="@+id/title"
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:textAppearance="@android:style/TextAppearance.Large"
+            android:textColor="@color/white"
+            tools:text="Image title" />
+
+        <TextView
+            android:id="@+id/info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:textColor="@color/white"
+            tools:text="Image info" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/image"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:transitionName="@string/transition_image"
+                tools:src="@drawable/a001" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:gravity="right"
+                android:text="Buy $12.23"
+                android:textColor="@color/white" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="50dp"
+        android:layout_height="10dp"
         android:layout_gravity="center"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textAppearance="@android:style/TextAppearance.Large"
-        tools:text="Image title" />
+        android:layout_margin="15dp"
+        android:background="@color/image_selected" />
 
-    <TextView
-        android:id="@+id/description"
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler_view"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        tools:text="A very long image description. A very long image description. A very long image description. A very long image description. A very long image description. A very long image description. A very long image description. A very long image description. A very long image description. A very long image description. A very long image description. A very long image description. A very long image description. A very long image description. A very long image description. A very long image description. A very long image description. A very long image description. A very long image description. A very long image description. A very long image description. A very long image description. " />
+        android:layout_height="match_parent" />
 
 </LinearLayout>

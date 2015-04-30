@@ -5,6 +5,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import butterknife.ButterKnife;
@@ -22,7 +27,8 @@ public class DetailActivity extends Activity {
 
 	@InjectView(R.id.image) ImageView mImage;
 	@InjectView(R.id.title) TextView mTitle;
-	@InjectView(R.id.description) TextView mDescription;
+	@InjectView(R.id.recycler_view) RecyclerView mRecyclerView;
+	@InjectView(R.id.info) TextView mInfo;
 
 	public static Intent showImage(Context context, ImageModel image) {
 		Intent intent = new Intent(context, DetailActivity.class);
@@ -45,7 +51,11 @@ public class DetailActivity extends Activity {
 
 		mImage.setImageResource(mImageData.getImage());
 		mTitle.setText(mImageData.getTitle());
-		mDescription.setText(mImageData.getDescription());
+		mInfo.setText(mImageData.getInfo());
+
+		mRecyclerView.setHasFixedSize(true);
+		mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+		mRecyclerView.setAdapter(mAdapter);
 	}
 
 	@Override protected void onSaveInstanceState(@NonNull Bundle outState) {
@@ -57,4 +67,33 @@ public class DetailActivity extends Activity {
 		super.onBackPressed();
 		overridePendingTransition(R.anim.from_left, R.anim.to_right);
 	}
+
+	public static class ViewHolder extends RecyclerView.ViewHolder {
+
+		@InjectView(R.id.image) ImageView image;
+		@InjectView(R.id.title) TextView title;
+		@InjectView(R.id.info) TextView info;
+
+		public ViewHolder(View itemView) {
+			super(itemView);
+			ButterKnife.inject(this, itemView);
+		}
+	}
+
+	private RecyclerView.Adapter mAdapter = new RecyclerView.Adapter<ViewHolder>() {
+		@Override public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+			View v = LayoutInflater.from(parent.getContext())
+					.inflate(R.layout.recycler_item, parent, false);
+
+			return new ViewHolder(v);
+		}
+		@Override public void onBindViewHolder(ViewHolder holder, int position) {
+			holder.image.setImageResource(Data.IMAGE_DATA[position].getImage());
+			holder.title.setText(Data.IMAGE_DATA[position].getTitle());
+			holder.info.setText(Data.IMAGE_DATA[position].getInfo());
+		}
+		@Override public int getItemCount() {
+			return Data.IMAGE_DATA.length;
+		}
+	};
 }
