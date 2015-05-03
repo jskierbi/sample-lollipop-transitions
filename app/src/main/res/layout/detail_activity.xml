@@ -7,6 +7,7 @@
     android:padding="10dp">
 
     <LinearLayout
+        android:id="@+id/detail_holder"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/blue_primary"
@@ -62,6 +63,7 @@
         android:layout_margin="15dp"
         android:background="@color/image_selected" />
 
+    <!-- android:transitionGroup="true" -->
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler_view"
         android:layout_width="match_parent"

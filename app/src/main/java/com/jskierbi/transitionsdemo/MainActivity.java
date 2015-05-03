@@ -8,6 +8,7 @@ import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.transition.Fade;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,14 +22,15 @@ public class MainActivity extends AppCompatActivity {
 
 	private static final String TAG = MainActivity.class.getSimpleName();
 
-//	private GridView mGridView;
+	//	private GridView mGridView;
 	@InjectView(R.id.recycler_view) RecyclerView mRecyclerView;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-			// Enable transitions
-			getWindow().requestFeature(Window.FEATURE_CONTENT_TRANSITIONS);
+			getWindow().requestFeature(Window.FEATURE_ACTIVITY_TRANSITIONS);
+			getWindow().setExitTransition(new Fade());
+			getWindow().setReenterTransition(new Fade());
 		}
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
@@ -49,10 +51,11 @@ public class MainActivity extends AppCompatActivity {
 		}
 
 		@OnClick(R.id.image) void onImageClick() {
-
 			ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(
 					MainActivity.this,
-					image, getString(R.string.transition_image));
+					image, getString(R.string.transition_image)
+			);
+
 			Intent intent = DetailActivity.showImage(MainActivity.this, imageModel);
 			ActivityCompat.startActivity(MainActivity.this, intent, options.toBundle());
 			overridePendingTransition(R.anim.from_left, R.anim.to_right);

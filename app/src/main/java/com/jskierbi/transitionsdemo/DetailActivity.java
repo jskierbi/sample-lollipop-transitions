@@ -3,10 +3,15 @@ package com.jskierbi.transitionsdemo;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.transition.Slide;
+import android.transition.TransitionSet;
+import android.transition.Visibility;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,6 +44,26 @@ public class DetailActivity extends Activity {
 	private ImageModel mImageData;
 
 	@Override protected void onCreate(Bundle savedInstanceState) {
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+
+			// Prepare window transitions
+//			getWindow().requestFeature(Window.FEATURE_ACTIVITY_TRANSITIONS);
+//			getWindow().setEnterTransition(new Slide(Gravity.TOP));
+
+
+			Visibility topTransition = new Slide(Gravity.TOP);
+			topTransition.addTarget(R.id.detail_holder);
+
+			Visibility bottomTransition = new Slide(Gravity.BOTTOM);
+			bottomTransition.excludeTarget(R.id.detail_holder, true);
+			bottomTransition.setStartDelay(350l);
+
+			TransitionSet transitionSet = new TransitionSet();
+			transitionSet.addTransition(topTransition);
+			transitionSet.addTransition(bottomTransition);
+			getWindow().setEnterTransition(transitionSet);
+
+		}
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.detail_activity);
 		ButterKnife.inject(this);
