@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.transition.Fade;
 import android.transition.Slide;
 import android.transition.TransitionSet;
 import android.transition.Visibility;
@@ -19,6 +20,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import com.jskierbi.transitionsdemo.transitions.RevealTransition;
 import org.parceler.Parcels;
 
 /**
@@ -44,29 +46,45 @@ public class DetailActivity extends Activity {
 	private ImageModel mImageData;
 
 	@Override protected void onCreate(Bundle savedInstanceState) {
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-
-			// Prepare window transitions
-//			getWindow().requestFeature(Window.FEATURE_ACTIVITY_TRANSITIONS);
-//			getWindow().setEnterTransition(new Slide(Gravity.TOP));
-
-
-			Visibility topTransition = new Slide(Gravity.TOP);
-			topTransition.addTarget(R.id.detail_holder);
-
-			Visibility bottomTransition = new Slide(Gravity.BOTTOM);
-			bottomTransition.excludeTarget(R.id.detail_holder, true);
-			bottomTransition.setStartDelay(350l);
-
-			TransitionSet transitionSet = new TransitionSet();
-			transitionSet.addTransition(topTransition);
-			transitionSet.addTransition(bottomTransition);
-			getWindow().setEnterTransition(transitionSet);
-
-		}
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.detail_activity);
 		ButterKnife.inject(this);
+
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+
+			mRecyclerView.setTransitionGroup(true);
+
+			{   // Setup enter transition
+				Visibility revealTransttion = new RevealTransition();
+				revealTransttion.addTarget(R.id.detail_holder);
+				revealTransttion.setDuration(100l);
+				revealTransttion.setStartDelay(200l);
+
+				Visibility bottomTransition = new Slide(Gravity.BOTTOM);
+				bottomTransition.excludeTarget(R.id.detail_holder, true);
+				bottomTransition.setStartDelay(150l);
+
+				TransitionSet transitionSet = new TransitionSet();
+				transitionSet.addTransition(revealTransttion);
+				transitionSet.addTransition(bottomTransition);
+				getWindow().setEnterTransition(transitionSet);
+			}
+
+			{   // Setup exit transition
+				Visibility revealTransition = new RevealTransition();
+				revealTransition.addTarget(R.id.detail_holder);
+				revealTransition.setDuration(100l);
+
+				Visibility fadeTransition = new Fade();
+				fadeTransition.excludeTarget(R.id.detail_holder, true);
+
+				TransitionSet transitionSet = new TransitionSet();
+				transitionSet.addTransition(revealTransition);
+				transitionSet.addTransition(fadeTransition);
+				getWindow().setReturnTransition(transitionSet);
+			}
+
+		}
 
 		if (savedInstanceState != null) {
 			mImageData = Parcels.unwrap(savedInstanceState.getParcelable(KEY_IMAGE_DATA));

@@ -5,6 +5,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v4.view.ViewCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -35,6 +36,10 @@ public class MainActivity extends AppCompatActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		ButterKnife.inject(this);
+
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+			mRecyclerView.setTransitionGroup(true);
+		}
 
 		mRecyclerView.setLayoutManager(new GridLayoutManager(this, 3));
 		mRecyclerView.setAdapter(mAdapter);
