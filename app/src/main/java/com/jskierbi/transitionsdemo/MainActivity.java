@@ -5,7 +5,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
-import android.support.v4.view.ViewCompat;
+import android.support.v4.util.Pair;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -21,9 +21,6 @@ import butterknife.OnClick;
 
 public class MainActivity extends AppCompatActivity {
 
-	private static final String TAG = MainActivity.class.getSimpleName();
-
-	//	private GridView mGridView;
 	@InjectView(R.id.recycler_view) RecyclerView mRecyclerView;
 
 	@Override
@@ -58,12 +55,12 @@ public class MainActivity extends AppCompatActivity {
 		@OnClick(R.id.image) void onImageClick() {
 			ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(
 					MainActivity.this,
-					image, getString(R.string.transition_image)
+					Pair.<View, String>create(image, getString(R.string.transition_image))
 			);
 
 			Intent intent = DetailActivity.showImage(MainActivity.this, imageModel);
 			ActivityCompat.startActivity(MainActivity.this, intent, options.toBundle());
-			overridePendingTransition(R.anim.from_left, R.anim.to_right);
+			overridePendingTransition(R.anim.from_right, R.anim.to_left);
 		}
 	}
 

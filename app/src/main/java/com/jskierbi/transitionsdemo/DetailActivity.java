@@ -53,16 +53,18 @@ public class DetailActivity extends Activity {
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
 
 			mRecyclerView.setTransitionGroup(true);
+			mImage.setTransitionName(getString(R.string.transition_image));
 
 			{   // Setup enter transition
 				Visibility revealTransttion = new RevealTransition();
 				revealTransttion.addTarget(R.id.detail_holder);
-				revealTransttion.setDuration(100l);
 				revealTransttion.setStartDelay(200l);
 
 				Visibility bottomTransition = new Slide(Gravity.BOTTOM);
 				bottomTransition.excludeTarget(R.id.detail_holder, true);
-				bottomTransition.setStartDelay(150l);
+				bottomTransition.excludeTarget(android.R.id.statusBarBackground, true);
+				bottomTransition.excludeTarget(android.R.id.navigationBarBackground, true);
+				bottomTransition.setStartDelay(250l);
 
 				TransitionSet transitionSet = new TransitionSet();
 				transitionSet.addTransition(revealTransttion);

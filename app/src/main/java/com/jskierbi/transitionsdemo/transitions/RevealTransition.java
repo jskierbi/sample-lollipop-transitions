@@ -22,6 +22,8 @@ import java.util.ArrayList;
 @TargetApi(Build.VERSION_CODES.LOLLIPOP)
 public class RevealTransition extends Visibility {
 
+	private static final String TAG = RevealTransition.class.getSimpleName();
+
 	public RevealTransition() {}
 
 	public RevealTransition(Context context, AttributeSet attrs) {
@@ -33,15 +35,14 @@ public class RevealTransition extends Visibility {
 	                                   TransitionValues startValues,
 	                                   TransitionValues endValues) {
 		float radius = calculateMaxRadius(view);
-//		final float originalAlpha = view.getAlpha();
-//		view.setAlpha(0f);
+		view.setVisibility(View.INVISIBLE);
 
 		Animator reveal = createAnimator(view, 0, radius);
-//		reveal.addListener(new AnimatorListenerAdapter() {
-//			@Override public void onAnimationStart(Animator animation) {
-//				view.setAlpha(originalAlpha);
-//			}
-//		});
+		reveal.addListener(new AnimatorListenerAdapter() {
+			@Override public void onAnimationStart(Animator animation) {
+				view.setVisibility(View.VISIBLE);
+			}
+		});
 		return reveal;
 	}
 
@@ -54,18 +55,17 @@ public class RevealTransition extends Visibility {
 	}
 
 	private Animator createAnimator(View view, float startRadius, float endRadius) {
-		int centerX = view.getWidth() / 2;
-		int centerY = view.getHeight() / 2;
+		int centerX = view.getWidth() / 5;
+		int centerY = view.getHeight() * 2 / 3;
 
 		Animator reveal = ViewAnimationUtils.createCircularReveal(view, centerX, centerY, startRadius, endRadius);
-		return reveal;
-//		return new NoPauseAnimatorWrapper(reveal);
+		return new NoPauseAnimatorWrapper(reveal);
 	}
 
 	static float calculateMaxRadius(View v) {
 		float widthSquared = v.getWidth() * v.getWidth();
 		float heightSquared = v.getHeight() * v.getHeight();
-		float radius = (float) Math.sqrt(widthSquared + heightSquared) / 2;
+		float radius = (float) Math.sqrt(widthSquared + heightSquared);
 		return radius;
 	}
 
