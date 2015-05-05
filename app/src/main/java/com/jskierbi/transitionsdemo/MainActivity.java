@@ -9,11 +9,12 @@ import android.support.v4.util.Pair;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.transition.Fade;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.view.Window;
+import android.transition.Slide;
+import android.transition.Transition;
+import android.transition.TransitionSet;
+import android.view.*;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
@@ -22,21 +23,39 @@ import butterknife.OnClick;
 public class MainActivity extends AppCompatActivity {
 
 	@InjectView(R.id.recycler_view) RecyclerView mRecyclerView;
+	@InjectView(R.id.toolbar) Toolbar mToolbar;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
 			getWindow().requestFeature(Window.FEATURE_ACTIVITY_TRANSITIONS);
-			getWindow().setExitTransition(new Fade());
-			getWindow().setReenterTransition(new Fade());
 		}
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		ButterKnife.inject(this);
 
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+			// Setup transiitons
+
+			Transition slide = new Slide(Gravity.LEFT)
+					.excludeTarget(android.R.id.statusBarBackground, true)
+					.excludeTarget(android.R.id.navigationBarBackground, true)
+					.excludeTarget(R.id.toolbar, true);
+			Transition slideUp = new Slide(Gravity.TOP)
+					.addTarget(R.id.toolbar);
+
+			TransitionSet set = new TransitionSet();
+			set.addTransition(slide);
+			set.addTransition(slideUp);
+
+			getWindow().setExitTransition(set);
+			getWindow().setReenterTransition(set);
+
+			mToolbar.setTransitionGroup(true);
 			mRecyclerView.setTransitionGroup(true);
 		}
+
+		setSupportActionBar(mToolbar);
 
 		mRecyclerView.setLayoutManager(new GridLayoutManager(this, 3));
 		mRecyclerView.setAdapter(mAdapter);
@@ -53,6 +72,8 @@ public class MainActivity extends AppCompatActivity {
 		}
 
 		@OnClick(R.id.image) void onImageClick() {
+
+			// Transition: comon elements
 			ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(
 					MainActivity.this,
 					Pair.<View, String>create(image, getString(R.string.transition_image))

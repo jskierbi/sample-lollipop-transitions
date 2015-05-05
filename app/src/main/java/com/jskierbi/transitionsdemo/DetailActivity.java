@@ -79,6 +79,8 @@ public class DetailActivity extends Activity {
 
 				Visibility fadeTransition = new Fade();
 				fadeTransition.excludeTarget(R.id.detail_holder, true);
+				fadeTransition.excludeTarget(android.R.id.statusBarBackground, true);
+				fadeTransition.excludeTarget(android.R.id.navigationBarBackground, true);
 
 				TransitionSet transitionSet = new TransitionSet();
 				transitionSet.addTransition(revealTransition);
