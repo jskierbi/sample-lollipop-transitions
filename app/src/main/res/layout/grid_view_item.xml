@@ -5,4 +5,4 @@
     android:layout_height="wrap_content"
     android:background="@drawable/checked_image"
     android:cropToPadding="true"
-    android:padding="6dp" />
+    android:layout_margin="6dp" />

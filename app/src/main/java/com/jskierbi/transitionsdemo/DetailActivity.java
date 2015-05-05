@@ -62,13 +62,13 @@ public class DetailActivity extends Activity {
 
 				Visibility bottomTransition = new Slide(Gravity.BOTTOM);
 				bottomTransition.excludeTarget(R.id.detail_holder, true);
-				bottomTransition.excludeTarget(android.R.id.statusBarBackground, true);
-				bottomTransition.excludeTarget(android.R.id.navigationBarBackground, true);
 				bottomTransition.setStartDelay(250l);
 
 				TransitionSet transitionSet = new TransitionSet();
 				transitionSet.addTransition(revealTransttion);
 				transitionSet.addTransition(bottomTransition);
+				transitionSet.excludeTarget(android.R.id.statusBarBackground, true);
+				transitionSet.excludeTarget(android.R.id.navigationBarBackground, true);
 				getWindow().setEnterTransition(transitionSet);
 			}
 
@@ -77,14 +77,14 @@ public class DetailActivity extends Activity {
 				revealTransition.addTarget(R.id.detail_holder);
 				revealTransition.setDuration(100l);
 
-				Visibility fadeTransition = new Fade();
+				Visibility fadeTransition = new Slide(Gravity.RIGHT);
 				fadeTransition.excludeTarget(R.id.detail_holder, true);
-				fadeTransition.excludeTarget(android.R.id.statusBarBackground, true);
-				fadeTransition.excludeTarget(android.R.id.navigationBarBackground, true);
 
 				TransitionSet transitionSet = new TransitionSet();
 				transitionSet.addTransition(revealTransition);
 				transitionSet.addTransition(fadeTransition);
+				transitionSet.excludeTarget(android.R.id.statusBarBackground, true);
+				transitionSet.excludeTarget(android.R.id.navigationBarBackground, true);
 				getWindow().setReturnTransition(transitionSet);
 			}
 

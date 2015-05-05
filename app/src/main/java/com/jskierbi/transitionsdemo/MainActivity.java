@@ -10,7 +10,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.transition.Fade;
 import android.transition.Slide;
 import android.transition.Transition;
 import android.transition.TransitionSet;
@@ -35,18 +34,18 @@ public class MainActivity extends AppCompatActivity {
 		ButterKnife.inject(this);
 
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-			// Setup transiitons
 
+			// Setup transiitons
 			Transition slide = new Slide(Gravity.LEFT)
-					.excludeTarget(android.R.id.statusBarBackground, true)
-					.excludeTarget(android.R.id.navigationBarBackground, true)
 					.excludeTarget(R.id.toolbar, true);
 			Transition slideUp = new Slide(Gravity.TOP)
 					.addTarget(R.id.toolbar);
 
-			TransitionSet set = new TransitionSet();
-			set.addTransition(slide);
-			set.addTransition(slideUp);
+			Transition set = new TransitionSet()
+					.addTransition(slide)
+					.addTransition(slideUp)
+					.excludeTarget(android.R.id.statusBarBackground, true)
+					.excludeTarget(android.R.id.navigationBarBackground, true);
 
 			getWindow().setExitTransition(set);
 			getWindow().setReenterTransition(set);

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="AppTheme" parent="Theme.AppCompat.Light">
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
+
+    <!-- v21+ attributes goes here -->
+    <style name="BaseTheme" parent="Theme.AppCompat.Light">
 
         <item name="android:windowActivityTransitions">true</item>
 

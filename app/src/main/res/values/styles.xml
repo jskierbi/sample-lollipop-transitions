@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+
+    <!-- Common attributes for all platforms -->
+    <style name="AppTheme" parent="BaseTheme">
         <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="colorPrimary">@color/blue_primary</item>
+        <item name="colorPrimaryDark">@color/blue_primary_dark</item>
+    </style>
+
+    <style name="BaseTheme" parent="Theme.AppCompat.Light">
     </style>
 </resources>
